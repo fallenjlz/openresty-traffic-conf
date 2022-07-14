@@ -5,7 +5,7 @@ local function get_name()
 end
 
 function _M.greeting()
-    print("hello " .. get_name())
+    return "hello " .. get_name()
 end
 
 return _M
