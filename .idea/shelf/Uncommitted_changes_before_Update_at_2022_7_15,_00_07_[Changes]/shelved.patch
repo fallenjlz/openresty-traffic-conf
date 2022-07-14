@@ -1,0 +1,18 @@
+Index: conf.d/srv1.conf
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server {\n        listen 81;\n        server_name srv1.test.io;\n        default_type 'text/plain';\n        location / {\n\t\t    content_by_lua_block {\n                ngx.say(\"hello srv1\")\n\t\t    }\n\t\t}\n\n\t\tlocation /print_param {\n\t\t  content_by_lua_block {\n\t\t        local arg = ngx.req.get_uri_args()\n                for k,v in pairs(arg) do\n                    ngx.say('[GET ] key: ',k,'Value: ',v)\n                end\n\n                ngx.req.read_body()\n                local arg = ngx.req.get_post_args()\n                for k,v in pairs(arg) do\n                    ngx.say(\"[POST] key:\", k, \" v:\", v)\n                end\n\t\t  }\n\t\t}\n\n\t\tlocation /get_headers {\n        \t\t  content_by_lua_block {\n        \t\t        local arg = ngx.req.get_headers()\n                        for k,v in pairs(arg) do\n                            ngx.say('headers: ',k,'Value: ',v)\n                        end\n            }\n        }\n\n          location /test {\n               content_by_lua_block {\n                   local res = ngx.location.capture(\n                            '/print_param',\n                            {\n                               method = ngx.HTTP_POST,\n                               args = ngx.encode_args({a = 1, b = '2&'}),\n                               body = ngx.encode_args({c = 3, d = '4&'})\n                           }\n                        )\n                   ngx.say(res.body)\n               }\n           }\n\n            location /download {\n                       access_by_lua_block {\n                           ngx.var.limit_rate = 100\n                       }\n\n                       content_by_lua_block {\n                            ngx.say('srv1 donwload')\n                       }\n                   }\n\t}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/conf.d/srv1.conf b/conf.d/srv1.conf
+--- a/conf.d/srv1.conf	(revision cd3757063658460c07ec3500b2ebd84545c4809b)
++++ b/conf.d/srv1.conf	(date 1657636847512)
+@@ -49,6 +49,7 @@
+             location /download {
+                        access_by_lua_block {
+                            ngx.var.limit_rate = 100
++
+                        }
+ 
+                        content_by_lua_block {
