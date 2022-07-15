@@ -2,7 +2,6 @@
 local shell = require "resty.shell"
 -- local ok,stdout,_,_,_= shell.run("cd /usr/local/openresty/nginx/conf/conf.d/lua")
 -- local _,stdout2 = shell.run("pwd")
-os.execute("cd /usr/local/openresty/nginx/conf/conf.d/lua")
 local file = io.open("test.txt", "r")
 
 
@@ -12,4 +11,8 @@ if file == nil then
 end
 
 for line in file:lines() do ngx.say(line) end
+file:close()
 
+local file1 = io.open("test.txt","a")
+file1:write(tostring(os.date("now is %x %X")))
+file1:close()
