@@ -1,4 +1,4 @@
-local file = io.open("./my.lua", "r")
+local file = io.open("con/conf.d/lua/my.lua", "r")
 
 if file == nil then return end
 
