@@ -1,7 +1,7 @@
 local file = io.open("conf/conf.d/lua/test.txt", "r")
 local shell = require "resty.shell"
 
-local ok,stdout,_,_,_= shell.run("pwd")
+local ok,stdout,_,_,_= shell.run("pwd;ls")
 
 if file == nil then
     ngx.say(stdout)
