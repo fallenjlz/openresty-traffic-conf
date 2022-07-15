@@ -1,7 +1,7 @@
 
 local shell = require "resty.shell"
 local ok,stdout,_,_,_= shell.run("pwd;cd /usr/local/openresty/nginx/conf/conf.d/lua")
-local file = io.open("conf/conf.d/lua/test.txt", "r")
+local file = io.open("test.txt", "r")
 
 
 if file == nil then
