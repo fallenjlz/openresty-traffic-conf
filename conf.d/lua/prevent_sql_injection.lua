@@ -1,74 +1,72 @@
 local mysql = require "resty.mysql"
-        local db, err = mysql:new()
-        if not db then
-            ngx.say("failed to instantiate mysql: ", err)
-            return
-        end
+local db, err = mysql:new()
+if not db then
+    ngx.say("failed to instantiate mysql: ", err)
+    return
+end
 
-        db:set_timeout(1000) -- 1 sec
+db:set_timeout(1000) -- 1 sec
 
-        local ok, err, errno, sqlstate = db:connect{
-            host = "172.20.0.8",
-            port = 3306,
-            database = "ngx_test",
-            user = "ngx_test",
-            password = "ngx_test",
-            max_packet_size = 1024 * 1024 }
+local ok, err, errno, sqlstate = db:connect{
+    host = "172.20.0.8",
+    port = 3306,
+    database = "ngx_test",
+    user = "ngx_test",
+    password = "ngx_test",
+    max_packet_size = 1024 * 1024
+}
 
-        if not ok then
-            ngx.say("failed to connect: ", err, ": ", errno, " ", sqlstate)
-            return
-        end
+if not ok then
+    ngx.say("failed to connect: ", err, ": ", errno, " ", sqlstate)
+    return
+end
 
-        ngx.say("connected to mysql.")
+ngx.say("connected to mysql.")
 
-        local res, err, errno, sqlstate =
-            db:query("drop table if exists cats")
-        if not res then
-            ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-            return
-        end
+local res, err, errno, sqlstate = db:query("drop table if exists cats")
+if not res then
+    ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+    return
+end
 
-        res, err, errno, sqlstate =
-            db:query("create table cats "
-                     .. "(id serial primary key, "
-                     .. "name varchar(5))")
-        if not res then
-            ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-            return
-        end
+res, err, errno, sqlstate = db:query("create table cats " ..
+                                         "(id serial primary key, " ..
+                                         "name varchar(5))")
+if not res then
+    ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+    return
+end
 
-        ngx.say("table cats created.")
+ngx.say("table cats created.")
 
-        res, err, errno, sqlstate =
-            db:query("insert into cats (name) "
-                     .. "values (\'Bob\'),(\'\'),(null)")
-        if not res then
-            ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-            return
-        end
+res, err, errno, sqlstate = db:query("insert into cats (name) " ..
+                                         "values (\'Bob\'),(\'\'),(null)")
+if not res then
+    ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+    return
+end
 
-        ngx.say(res.affected_rows, " rows inserted into table cats ",
-                "(last insert id: ", res.insert_id, ")")
+ngx.say(res.affected_rows, " rows inserted into table cats ",
+        "(last insert id: ", res.insert_id, ")")
 
-        -- 这里有 SQL 注入（后面的 drop 操作）
-        local req_id = [[1'; drop table cats;--]]
-        res, err, errno, sqlstate =
-            db:query(string.format([[select * from cats where id = '%s']], req_id))
-        if not res then
-            ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-            return
-        end
+-- 这里有 SQL 注入（后面的 drop 操作）
+local req_id = [[1'; drop table cats;--]]
+res, err, errno, sqlstate = -- 调用 ndk.set_var.set_quote_pgsql_str 过滤输入变量
+db:query(string.format([[select * from cats where id = '%s']],
+                       ndk.set_var.set_quote_sql_str(req_id)))
+if not res then
+    ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+    return
+end
 
-        local cjson = require "cjson"
-        ngx.say("result: ", cjson.encode(res))
+local cjson = require "cjson"
+ngx.say("result: ", cjson.encode(res))
 
-        -- 再次查询，table 被删
-        res, err, errno, sqlstate =
-            db:query([[select * from cats where id = 1]])
-        if not res then
-            ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
-            return
-        end
+-- 再次查询，table 被删
+res, err, errno, sqlstate = db:query([[select * from cats where id = 1]])
+if not res then
+    ngx.say("bad result: ", err, ": ", errno, ": ", sqlstate, ".")
+    return
+end
 
-        db:set_keepalive(10000, 100)
+db:set_keepalive(10000, 100)
