@@ -128,6 +128,7 @@ function _M.subscribe(self, channel)
                 ngx.say("redis unsubscribe finished")
                 ngx.exit(ngx.HTTP_OK)
             end
+            ngx.say(res)
             return res
         end
         return
