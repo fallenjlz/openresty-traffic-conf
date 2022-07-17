@@ -5,6 +5,7 @@ if not func then return nil end
 
 while true do
     local res, err = func()
-    ngx.say(res)
     if err then func(false) end
 end
+
+return cbfunc
