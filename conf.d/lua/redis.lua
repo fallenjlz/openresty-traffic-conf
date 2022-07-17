@@ -108,14 +108,15 @@ function _M.subscribe(self, channel)
     local ok, err = self:connect_mod(redis)
     if not ok or err then return nil, err end
 
+    ngx.say("chanel: ",channel)
     local res, err = redis:subscribe(channel)
     if not res then return nil, err end
 
-    res, err = redis:read_reply()
-    if not res then return nil, err end
+    -- res, err = redis:read_reply()
+    -- if not res then return nil, err end
 
-    redis:unsubscribe(channel)
-    self.set_keepalive_mod(redis)
+    -- redis:unsubscribe(channel)
+    -- self.set_keepalive_mod(redis)
 
     local function do_read_func(do_read)
         if do_read == nil or do_read == true then
