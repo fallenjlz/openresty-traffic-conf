@@ -1,9 +1,9 @@
 ngx.req.read_body()
 local args, err = ngx.req.get_uri_args()
 
-local http = require "resty.http" -- ①
+local http = require "resty.http" 
 local httpc = http.new()
-local res, err = httpc:request_uri( -- ②"http://127.0.0.1:82/spe_md5",
+local res, err = httpc:request_uri( "http://127.0.0.1:82/spe_md5",
                                           {method = "POST", body = args.data})
 
 if 200 ~= res.status then ngx.exit(res.status) end
