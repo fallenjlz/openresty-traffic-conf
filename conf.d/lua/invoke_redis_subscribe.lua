@@ -5,7 +5,7 @@ if not func then return nil end
 
 while true do
     local res, err = func()
-    if not res or err then func(false) end
+    if res == nil or not res or err then func(false) end
     ngx.say(res)
 end
 
