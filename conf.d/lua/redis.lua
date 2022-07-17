@@ -121,8 +121,10 @@ function _M.subscribe(self, channel)
         if do_read == nil or do_read == true then
             res, err = redis:read_reply()
             if not res then
+                ngx.say("no reply ... ")
                 redis:unsubscribe(channel)
                 self.set_keepalive_mod(redis)
+                ngx.say("redis unsubscribe finished")
                 ngx.exit(ngx.HTTP_OK)
             end
             return res
