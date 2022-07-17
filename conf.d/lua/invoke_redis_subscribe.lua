@@ -4,8 +4,9 @@ local func = red:subscribe("test")
 if not func then return nil end
 
 while true do
-    local res, err = func()
-    if res == nil or not res or err then func(false) end
+    local res, _ = func()
+    if not res then return end
+    -- if res == nil or not res or err then func(false) end
     ngx.say(res)
 end
 
