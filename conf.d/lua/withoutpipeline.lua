@@ -15,8 +15,10 @@ end
 
 local ok, err = red:set("cat", "Marry")
 ngx.say("set result: ", ok)
+ngx.say("err: ",err)
 local res, err = red:get("cat")
 ngx.say("cat: ", res)
+ngx.say("err: ",err)
 
 ok, err = red:set("horse", "Bob")
 ngx.say("set result: ", ok)
