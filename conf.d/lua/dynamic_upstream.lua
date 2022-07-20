@@ -1,7 +1,8 @@
 local balancer = require "ngx.balancer"
+local share_dict = ngx.shared.health_check
 
-local host = "127.0.0.1"
-local port = 82
+local host = share_dict:get("host")
+local port = share_dict:get("port")
 local log = ngx.log
 local ERR = ngx.ERR
 
