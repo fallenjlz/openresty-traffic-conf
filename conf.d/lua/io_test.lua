@@ -1,4 +1,3 @@
-
 local shell = require "resty.shell"
 -- local ok,stdout,_,_,_= shell.run("cd /usr/local/openresty/nginx/conf/conf.d/lua")
 -- local _,stdout2 = shell.run("pwd")
