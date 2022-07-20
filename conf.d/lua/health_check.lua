@@ -3,6 +3,7 @@ local log = ngx.log
 local ERR = ngx.ERR
 
 local ok, err = hc.spawn_checker {
+    shm = "healthcheck",
     upstream = "upsrv",
     type = "http",
     http_req = "GET /status HTTP/1.0\r\nHost:srv2.test.io\r\n\r\n",
