@@ -15,7 +15,8 @@ local ok, err = hc.spawn_checker {
     concurrency = 10
 }
 
-if not ok then
-    log(ERR, "faild to spawn health checker: ", error)
+
+if ok then
+    log(ERR, "success spawn health checker: ", error)
     return
 end
