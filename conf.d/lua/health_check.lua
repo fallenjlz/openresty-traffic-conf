@@ -1,6 +1,9 @@
 local hc = require "resty.upstream.healthcheck"
 local log = ngx.log
 local ERR = ngx.ERR
+local phase = ngx.get_phase()
+
+log(ERR,"\nphase: ",phase)
 
 local ok, err = hc.spawn_checker {
     shm = "healthcheck",
