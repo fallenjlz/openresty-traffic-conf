@@ -17,7 +17,6 @@ local ok, err = hc.spawn_checker {
 
 if err == nil then
     log(ERR, "success spawn health checker: ")
-    return
 end
 
 local ok, err = hc.spawn_checker {
