@@ -17,6 +17,6 @@ local ok, err = hc.spawn_checker {
 
 
 if ok then
-    log(ERR, "success spawn health checker: ", error)
+    log(ERR, "success spawn health checker: ")
     return
 end
