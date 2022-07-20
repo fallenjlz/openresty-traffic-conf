@@ -11,7 +11,7 @@ local ok, err = hc.spawn_checker {
     timeout = 1000,
     fall = 3,
     rise = 2,
-    valid_statses = {2000, 302},
+    valid_statses = {200, 302},
     concurrency = 10
 }
 
