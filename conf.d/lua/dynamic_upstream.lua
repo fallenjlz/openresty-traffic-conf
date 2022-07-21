@@ -1,5 +1,5 @@
 local balancer = require "ngx.balancer"
-local share_dict = ngx.shared.health_check
+local share_dict = ngx.shared.healthcheck
 
 local host = share_dict:get("host")
 local port = share_dict:get("port")
