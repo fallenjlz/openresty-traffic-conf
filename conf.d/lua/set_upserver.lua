@@ -3,8 +3,8 @@ local cjson = require "cjson"
 
 ngx.req.read_body()
 -- local arg = ngx.req.get_post_args()
-local data = ngx.req.get_body_data
-arg = cjson.encode(data)
+local data = ngx.req.get_body_data()
+arg = cjson.decode(data)
 
 --通过post请求体设置
 shared_dict:set("host",arg["host"])
