@@ -10,6 +10,7 @@ arg = cjson.decode(data)
 shared_dict:set("host",arg["host"])
 shared_dict:set("port",arg["port"])
 
+return "set successful"
 
 -- 通过查询参数设置
 -- shared_dict:set("host",ngx.var.arg_host)
