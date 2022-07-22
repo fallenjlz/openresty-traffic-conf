@@ -16,7 +16,6 @@ local getdata = function(key, timeout)
         ngx.say("failed to connect: ", err)
         return
     end
-    ngx.say("key ",key)
 
     local data, err = red:get(key)
     local ok, err = red:set_keepalive(10000, 100)
