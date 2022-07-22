@@ -54,29 +54,30 @@ if a then
     i = i + 1
 end
 
-if b then 
-    local b_thread = ngx.thread.spawn(say,"b") 
+if b then
+    local b_thread = ngx.thread.spawn(say, "b")
     threads[i] = b_thread
     i = i + 1
 end
 
-if c then 
+if c then
     local c_thread = ngx.thread.spawn(captrue_req_http)
     threads[i] = c_thread
     i = i + 1
-end 
-
-if d then
-    local d_thread = ngx.thread.spawn(cosocket_req_http,1)
-    threads[i] = d_thread
 end
 
-for i=1,#threads do
-    local ok,res = ngx.thread.wait(threads[i])
+if d then
+    local d_thread = ngx.thread.spawn(cosocket_req_http, 1)
+    threads[i] = d_thread
+    i = i + 1
+end
+
+for i = 1, #threads do
+    local ok, res = ngx.thread.wait(threads[i])
     if not ok then
-        ngx.say(i,": failed to run: ", res)
+        ngx.say(i, ": failed to run: ", res)
     else
-        ngx.say(i," res: ", res)
+        ngx.say(i, " res: ", res)
     end
 end
 
