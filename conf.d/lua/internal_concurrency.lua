@@ -31,13 +31,13 @@ end
 
 local captrue_req_http = function()
     local res = ngx.location.capture('/dynamic')
-    return res.status,res.body
+    return res.body
 end
 
 local cosocket_req_http = function(timeout)
     local httpc = http.new()
     httpc:set_timeout(timeout)
-    local res, err = httpc:request_uri("http://127.0.0.1:82/set", {
+    local res, err = httpc:request_uri("http://127.0.0.1:81/set", {
         method = "PUT",
         query = "host=127.0.0.1&port=82",
         keepalive_timeout = 60,
