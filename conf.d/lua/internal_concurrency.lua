@@ -16,6 +16,7 @@ local getdata = function(key, timeout)
         ngx.say("failed to connect: ", err)
         return
     end
+    ngx.say("key ",key)
 
     local data, err = red:get(key)
     local ok, err = red:set_keepalive(10000, 100)
@@ -30,7 +31,7 @@ end
 
 local captrue_req_http = function()
     local res = ngx.location.capture('/dynamic')
-    return res.body
+    return res.status,res.body
 end
 
 local cosocket_req_http = function(timeout)
@@ -38,7 +39,7 @@ local cosocket_req_http = function(timeout)
     httpc:set_timeout(timeout)
     local res, err = httpc:request_uri("http://127.0.0.1:82/set", {
         method = "PUT",
-        body = "host=127.0.0.1&port=82",
+        query = "host=127.0.0.1&port=82",
         keepalive_timeout = 60,
         keepalive_pool = 10
     })
