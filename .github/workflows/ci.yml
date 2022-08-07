@@ -55,6 +55,7 @@ jobs:
       run: |
         ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
           cd ${{ secrets.APP_DIR }}
+          ls
           sed -ir "/openresty/s/v[0-9].[0-9]$/'${{ github.ref_name }}'/"  docker-compose.yml
           docker-compose up -d 
         "
