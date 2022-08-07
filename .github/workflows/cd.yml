@@ -24,8 +24,8 @@ jobs:
       
     - name: Deploy with rsync
       run: | 
-          rsync -avz ./conf.d/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
-          rsync -anz ./nginx.conf ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/root/api6-docker/example/openresty/nginx/conf
+          rsync -avz ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
+          #rsync -anz ./nginx.conf ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/root/api6-docker/example/openresty/nginx/conf
           
     - name: reload config
       run: |
