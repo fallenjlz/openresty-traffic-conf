@@ -26,5 +26,9 @@ jobs:
       run: | 
           rsync -avz ./conf.d/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
           rsync -anz ./nginx.conf ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/root/api6-docker/example/openresty/nginx/conf
-    
-    
+          
+    - name: reload config
+      run: |
+        ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+          docker exec -it example-web1-1 sh -c "/usr/local/openresty/bin/openresty -s reload" -vvv
+        "
