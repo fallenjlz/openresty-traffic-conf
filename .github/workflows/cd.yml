@@ -30,7 +30,5 @@ jobs:
     - name: reload config
       run: |
         ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
-          ls
-          pwd
-          #docker exec -it example-web1-1 sh -c "/usr/local/openresty/bin/openresty -s reload" -vvv
+          docker exec -it example-web1-1 sh -c '/usr/local/openresty/bin/openresty -s reload' -vvv
         "
