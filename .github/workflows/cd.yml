@@ -4,7 +4,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -24,8 +24,7 @@ jobs:
       
     - name: Deploy with rsync
       run: | 
-          rsync -avz ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
-          #rsync -anz ./nginx.conf ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/root/api6-docker/example/openresty/nginx/conf
+          rsync -avz --exclude={'.idea','.github','.git','.gitignore'} ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
           
     - name: reload config
       run: |
