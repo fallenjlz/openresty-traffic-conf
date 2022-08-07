@@ -58,6 +58,7 @@ jobs:
           ls
           grep openresty docker-compose.yml
           sed -nr 's/v[0-9].[0-9]$/'${{ github.ref_name }}'/p' docker-compose.yml
+          sed -ir 's/v[0-9].[0-9]$/'${{ github.ref_name }}'/' docker-compose.yml
           #sed -ir "s/v[0-9].[0-9]$/'${{ github.ref_name }}'/" docker-compose.yml
           docker-compose up -d 
         "
