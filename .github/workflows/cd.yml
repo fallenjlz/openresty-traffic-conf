@@ -22,6 +22,8 @@ jobs:
 
       - name: Deploy with rsync
         run: |
+          pwd
+          echo ${{ secrets.REMOTE_TARGET }}
           rsync -avz --exclude={'.idea','.github','.git','.gitignore','Dockerfile'} ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_TARGET }}
 
       - name: reload config
