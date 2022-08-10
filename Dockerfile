@@ -6,7 +6,8 @@ RUN apt clean && \
     apt install -y procps && \
     apt install -y net-tools && \
     apt install -y telnet && \
-    apt install -y curl
+    apt install -y curl && \
+    apt install -y dnsutils
 COPY openresty-systemtap-toolkit/ /usr/local/openresty/openresty-systemtap-toolkit/
 COPY stapxx/ /usr/local/openresty/stapxx/
 COPY FlameGraph/ /usr/local/openresty/FlameGraph/
